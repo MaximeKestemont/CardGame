@@ -8,8 +8,10 @@ public class ResourceManager : MonoBehaviour {
 
 	public GameObject menuPanel;
 
-	public Text player1Text;
-	public Text player2Text;
+	public Text player1TextName;
+	public Text player1TextFood;
+	public Text player2TextName;
+	public Text player2TextFood;
 
 	public DropZone[] dropZones;
 

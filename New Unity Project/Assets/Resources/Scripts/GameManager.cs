@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour {
 		resourceManager.menuPanel.SetActive(false);
 
 		// Instantiate the players
-		playerList.Add(new Player("Player1", 1, resourceManager.player1Text));
-		playerList.Add(new Player("Player2", 2, resourceManager.player2Text));
+		playerList.Add(new Player("Player1", 1, resourceManager.player1TextName, resourceManager.player1TextFood));
+		playerList.Add(new Player("Player2", 2, resourceManager.player2TextName, resourceManager.player2TextFood));
 
 		setPlayerTurn(1);
 	}
