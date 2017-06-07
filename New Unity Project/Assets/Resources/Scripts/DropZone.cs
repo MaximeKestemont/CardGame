@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // Only work if associated with a component having an image
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
 
-	public enum DropZoneType {HAND, BOARD};
+	public enum DropZoneType {HAND, BOARD, DEPLOYMENT_ZONE};
 	public DropZoneType type;
 
 	public Color highlightColor;

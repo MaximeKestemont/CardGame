@@ -12,6 +12,8 @@ public class Player {
 	private int foodNumber;
 	private Text foodText;
 
+	private Color normalColor;
+
 	private bool isActive;
 
 	public Player(string name, int playerNumber, Text playerText, Text foodText) {
@@ -22,19 +24,28 @@ public class Player {
 
 		playerText.text = playerName;
 		isActive = false;
+		normalColor = new Color(1, 1, 1, 1);
 
 		// Initialize food 
 		SetFoodNumber(3);
 	}
 
-	public void SetActive(bool flag) {
-		isActive = flag;
+
+
+
+	// TODO maybe move this in a future Deck.cs script ? 
+	public void DrawCard(int number) {
+		// TODO
 	}
 
-
-
-
-
+	/*
+	=====================
+	addFood
+	=====================
+	*/
+	public void AddFood(int number) {
+		SetFoodNumber(foodNumber + number);
+	}
 
 	/* ---------------------------- Getter / Setter -------------------------- */
 
@@ -45,6 +56,15 @@ public class Player {
 
 	public int GetFoodNumber() {
 		return foodNumber;
+	}
+
+	public void SetActive(bool flag) {
+		if (flag == true)
+			playerText.color = new Color(255, 0, 0, 255);
+		else
+			playerText.color = normalColor;
+
+		isActive = flag;
 	}
 		
 }
