@@ -1,14 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/DeploymentZone.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Resources/Scripts/GameManager.cs">
     <Files>
+      <File FileName="Assets/Resources/Scripts/GameManager.cs" Line="86" Column="3" />
       <File FileName="Assets/Resources/Scripts/Draggable.cs" Line="52" Column="8" />
-      <File FileName="Assets/Resources/Scripts/Player.cs" Line="52" Column="1" />
-      <File FileName="Assets/Resources/Scripts/GameManager.cs" Line="79" Column="2" />
-      <File FileName="Assets/Resources/Scripts/ResourceManager.cs" Line="18" Column="16" />
-      <File FileName="Assets/Resources/Scripts/DropZone.cs" Line="45" Column="24" />
-      <File FileName="Assets/Resources/Scripts/DeploymentZone.cs" Line="13" Column="59" />
-      <File FileName="Assets/Resources/Scripts/Card.cs" Line="18" Column="16" />
+      <File FileName="Assets/Resources/Scripts/Player.cs" Line="25" Column="58" />
+      <File FileName="Assets/Resources/Scripts/ResourceManager.cs" Line="22" Column="152" />
+      <File FileName="Assets/Resources/Scripts/DropZone.cs" Line="53" Column="58" />
+      <File FileName="Assets/Resources/Scripts/DeploymentZone.cs" Line="56" Column="4" />
+      <File FileName="Assets/Resources/Scripts/Card.cs" Line="12" Column="2" />
+      <File FileName="Assets/Resources/Scripts/SampleCard.cs" Line="14" Column="3" />
+      <File FileName="Assets/Resources/Scripts/UIManager.cs" Line="31" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

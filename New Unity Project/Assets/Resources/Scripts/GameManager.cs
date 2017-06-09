@@ -73,9 +73,9 @@ public class GameManager : MonoBehaviour {
 		Debug.Log("Automatic Maintenance phase : start");
 
 		// For each deployment zone, get the number of units to kill
-		Dictionary<DeploymentZone.ZonePosition, int> unitsToKill = new Dictionary<DeploymentZone.ZonePosition, int>();
+		Dictionary<DeploymentZone, int> unitsToKill = new Dictionary<DeploymentZone, int>();
 		foreach (KeyValuePair<DeploymentZone.ZonePosition, DeploymentZone> d in activePlayer.deployementZoneMap) {
-			unitsToKill.Add(d.Key, d.Value.ConsumeFood());
+			unitsToKill.Add(d.Value, d.Value.ConsumeFood());
 		}
 
 		Debug.Log("Automatic Maintenance phase : finished ");
@@ -91,17 +91,25 @@ public class GameManager : MonoBehaviour {
 	=====================
 	// Start in invalid phase, and will only be valid once all units that should be killed are killed
 	*/
-	public void ActiveMaintenancePhase(Dictionary<DeploymentZone.ZonePosition, int> unitsToKill) {
+	public void ActiveMaintenancePhase(Dictionary<DeploymentZone, int> unitsToKill) {
 		if (currentPhase != GamePhase.ACTIVE_MAINTENANCE_INVALID)
 			Debug.LogError("WRONG PHASE");
 		Debug.Log("Active Maintenance phase : start");
 
-		bool isValid = false; // false if the player cannot go to the next phase
-		foreach (KeyValuePair<DeploymentZone.ZonePosition, int> k in unitsToKill) {
-				// TODO 
+
+		// TODO CONTINUE HERE
+		bool isValid = true; // false if the player cannot go to the next phase
+		foreach (KeyValuePair<DeploymentZone, int> k in unitsToKill) {
+			if (k.Value > 0) {
+				isValid = false;
+				// TODO temp code, should make a red border around the zone so that the player
+				// knows there is something to do
+				k.Key.GetComponent<Image>().color = new Color(1,1,1);
+			} 
+				
 		}
 
-		Debug.Log(unitsToKill[DeploymentZone.ZonePosition.MIDDLE]);
+
 	}
 
 	/*
