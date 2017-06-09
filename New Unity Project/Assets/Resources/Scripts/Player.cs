@@ -11,7 +11,7 @@ public class Player {
 	private Text playerText;
 	private int foodNumber;
 	private Text foodText;
-	public List<DeploymentZone> deployementZoneList = new List<DeploymentZone>();
+	public Dictionary<DeploymentZone.ZonePosition, DeploymentZone> deployementZoneMap = new Dictionary<DeploymentZone.ZonePosition, DeploymentZone>();
 
 	private Color normalColor;
 
@@ -22,13 +22,13 @@ public class Player {
 		int playerNumber, 
 		Text playerText, 
 		Text foodText,
-		List<DeploymentZone> deployementZoneList) 
+		Dictionary<DeploymentZone.ZonePosition, DeploymentZone> deployementZoneMap) 
 	{
 		this.playerName = name;
 		this.playerNumber = playerNumber;
 		this.playerText = playerText;
 		this.foodText = foodText;
-		this.deployementZoneList = deployementZoneList;
+		this.deployementZoneMap = deployementZoneMap;
 
 		playerText.text = playerName;
 		isActive = false;

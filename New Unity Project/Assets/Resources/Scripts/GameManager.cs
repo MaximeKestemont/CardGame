@@ -74,8 +74,8 @@ public class GameManager : MonoBehaviour {
 
 		// For each deployment zone, get the number of units to kill
 		Dictionary<DeploymentZone.ZonePosition, int> unitsToKill = new Dictionary<DeploymentZone.ZonePosition, int>();
-		foreach (DeploymentZone d in activePlayer.deployementZoneList) {
-			unitsToKill.Add(d.zonePosition, d.ConsumeFood());
+		foreach (KeyValuePair<DeploymentZone.ZonePosition, DeploymentZone> d in activePlayer.deployementZoneMap) {
+			unitsToKill.Add(d.Key, d.Value.ConsumeFood());
 		}
 
 		Debug.Log("Automatic Maintenance phase : finished ");
