@@ -48,11 +48,42 @@ public class Player {
 
 	/*
 	=====================
-	addFood
+	MaintenanceCheck
+	=====================
+	// Check that enough food/units were consumed/killed in each deployment zone
+	// If this is the case, then the player can move to the next phase
+	*/
+	public void MaintenanceCheck() {
+		// TODO
+	}
+
+	/*
+	=====================
+	AddFood
 	=====================
 	*/
 	public void AddFood(int number) {
 		SetFoodNumber(foodNumber + number);
+	}
+
+	/*
+	=====================
+	SetDeploymentZoneCardInteractable
+	=====================
+	*/
+	public void SetDeploymentZoneCardInteractable(bool flag) {
+		foreach (KeyValuePair<DeploymentZone.ZonePosition, DeploymentZone> kv in deployementZoneMap) {
+			kv.Value.SetCardInteractable(flag);
+		}
+	}
+
+	/*
+	=====================
+	SetCampZoneCardInteractable
+	=====================
+	*/
+	public void SetCampZoneCardInteractable(bool flag) {
+		// TODO
 	}
 
 	/* ---------------------------- Getter / Setter -------------------------- */

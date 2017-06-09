@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	public UIManager uiManager;
 
 	private List<Player> playerList = new List<Player>();
-	private Player activePlayer;
+	public Player activePlayer;
 
 	public enum GamePhase {MULLIGAN, DRAW, AUTOMATIC_MAINTENANCE, ACTIVE_MAINTENANCE_INVALID, ACTIVE_MAINTENANCE_VALID, MILITARY};
 	public GamePhase currentPhase;
@@ -39,14 +39,20 @@ public class GameManager : MonoBehaviour {
 	=====================
 	ResolveDrawPhase
 	=====================
-	1. Draw
-	2. Get food
-	3. Conquer territories
+	1. Disable all cards except the hand
+	2. Draw
+	3. Get food
+	4. Conquer territories
 	*/
 	public void ResolveDrawPhase() {
 		if (currentPhase != GamePhase.DRAW)
 			Debug.LogError("WRONG PHASE");
-		
+
+		// Cards outside of the hand should not be draggable for now
+		activePlayer.SetDeploymentZoneCardInteractable(false);
+		activePlayer.SetCampZoneCardInteractable(false);
+
+
 		activePlayer.DrawCard(2);
 		activePlayer.AddFood(2);
 
@@ -100,12 +106,24 @@ public class GameManager : MonoBehaviour {
 		// TODO CONTINUE HERE
 		bool isValid = true; // false if the player cannot go to the next phase
 		foreach (KeyValuePair<DeploymentZone, int> k in unitsToKill) {
+			DeploymentZone zone = k.Key;
+
 			if (k.Value > 0) {
 				isValid = false;
-				// TODO temp code, should make a red border around the zone so that the player
-				// knows there is something to do
-				k.Key.GetComponent<Image>().color = new Color(1,1,1);
-			} 
+
+				// TODO this should all be in a function belonging to the Deployment zone
+
+				// Hightlight the zone to indicate there is something to do
+				zone.Highlight();
+
+				zone.SetCardInteractable(true);
+
+				// Display a pop-up
+
+			} else {
+				// The player cannot interact with those cards in this phase
+				zone.SetCardInteractable(false);
+			}
 				
 		}
 

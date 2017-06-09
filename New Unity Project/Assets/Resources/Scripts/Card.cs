@@ -9,4 +9,11 @@ public abstract class Card : MonoBehaviour {
 	public int battleValue;
 
 	public abstract void SpecialEffect();
+
+	public void SetDraggable(bool flag) {
+		if (this.GetComponent<Draggable>() != null)
+			this.GetComponent<Draggable>().isActive = flag;
+		else
+			Debug.LogError("There should always be a Draggable script attached to a Card");
+	}
 }

@@ -7,14 +7,20 @@ using UnityEngine.UI;
 // Only work if associated with a component having an image
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
 
-	public enum DropZoneType {HAND, BOARD, DEPLOYMENT_ZONE};
+	public enum DropZoneType {HAND, BOARD, DEPLOYMENT_ZONE, GRAVEYARD};
 	public DropZoneType type;
 
 	public Color highlightColor;
 	private Color normalColor;
 
+	private GameManager gm;
+
 	void Awake() {
 		normalColor = this.GetComponent<Image>().color;
+
+		// TODO should be retrieved in a safer way
+		// currently only needed to get the currentStatus
+		gm = GameObject.Find("GameManager").GetComponent<GameManager>(); 
 	}
 
 	public void OnPointerEnter(PointerEventData eventData) {
@@ -45,7 +51,28 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 		Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
 		// TODO can add conditions here (check if enough food to play the card, if the DropZoneType is correct, etc.)
 		if (d != null) {
-			d.parentToReturnTo = this.transform;
+
+			if (this.type == DropZoneType.GRAVEYARD) {
+				// Can only be dropped to the graveyard in the maintenance phase
+				Debug.Log(gm);
+				if (gm.currentPhase == GameManager.GamePhase.ACTIVE_MAINTENANCE_INVALID) {
+					// Remove the card from the list
+					d.parentToReturnTo.GetComponent<DeploymentZone>().RemoveCard(d);
+
+					// Parent of the card is now the graveyard
+					d.parentToReturnTo = this.transform;	// TODO should add it to the graveyard class
+
+					// Update the maintenance
+					gm.activePlayer.MaintenanceCheck();
+
+					// TODO should make the card non interactable
+					// CONTINUE HERE
+				} else {
+					// Do nothing
+				}
+			} else {
+				d.parentToReturnTo = this.transform;
+			}
 		}
 	}
 

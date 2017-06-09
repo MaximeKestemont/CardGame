@@ -13,67 +13,82 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 	public Transform placeHolderParent = null;
 	private GameObject placeHolder = null;
 
+	// If the element can be dragged or not
+	public bool isActive = true;
+
 	public void Awake() {
 		rm = GameObject.FindObjectOfType<ResourceManager>();
 	}
 
 	public void OnBeginDrag(PointerEventData eventData) {
-		Debug.Log("OnBeginDrag");
-		// TODO compute the diff between the point of click and the center, and make an offset that will be used when dragging
+		if (isActive) {
+			Debug.Log("OnBeginDrag");
+			// TODO compute the diff between the point of click and the center, and make an offset that will be used when dragging
 
-		CreatePlaceHolder();
+			CreatePlaceHolder();
 
-		parentToReturnTo = this.transform.parent;
-		placeHolderParent = parentToReturnTo; 
-		this.transform.SetParent(this.transform.parent.parent);
+			parentToReturnTo = this.transform.parent;
+			placeHolderParent = parentToReturnTo; 
+			this.transform.SetParent(this.transform.parent.parent);
 
-		GetComponent<CanvasGroup>().blocksRaycasts = false;
+			GetComponent<CanvasGroup>().blocksRaycasts = false;
 
-		// TODO refactor that part, to make it glow (shader?) and more optimal by prestoring those values
-		foreach (DropZone d in rm.dropZones) {
-			if (d.type == DropZone.DropZoneType.BOARD) {
-				d.Highlight();
+			// TODO refactor that part, to make it glow (shader?) and more optimal by prestoring those values
+			foreach (DropZone d in rm.dropZones) {
+				if (d.type == DropZone.DropZoneType.BOARD) {
+					d.Highlight();
+				}
 			}
+		} else {
+			Debug.Log("Cannot drag the object");
 		}
 
 	}
 
 	public void OnDrag(PointerEventData eventData) {
-		this.transform.position = eventData.position;
+		if (isActive) {
+			this.transform.position = eventData.position;
 
-		if (placeHolder.transform.parent != placeHolderParent) {
-			placeHolder.transform.SetParent(placeHolderParent);
-		}
-
-		int newSiblingIndex = placeHolderParent.childCount;
-		for (int i = 0; i < placeHolderParent.childCount; i++) {
-			if (this.transform.position.x < placeHolderParent.GetChild(i).position.x) {
-
-				newSiblingIndex = i;
-				if (placeHolder.transform.GetSiblingIndex() < newSiblingIndex)
-					newSiblingIndex--;
-
-				break;
+			if (placeHolder.transform.parent != placeHolderParent) {
+				placeHolder.transform.SetParent(placeHolderParent);
 			}
-		}
 
-		placeHolder.transform.SetSiblingIndex(newSiblingIndex);
+			int newSiblingIndex = placeHolderParent.childCount;
+			for (int i = 0; i < placeHolderParent.childCount; i++) {
+				if (this.transform.position.x < placeHolderParent.GetChild(i).position.x) {
+
+					newSiblingIndex = i;
+					if (placeHolder.transform.GetSiblingIndex() < newSiblingIndex)
+						newSiblingIndex--;
+
+					break;
+				}
+			}
+
+			placeHolder.transform.SetSiblingIndex(newSiblingIndex);
+		} else {
+			Debug.Log("Cannot drag the object");
+		}
 	}
 
 	public void OnEndDrag(PointerEventData eventData) {
-		Debug.Log("OnEndDrag");
-		this.transform.SetParent(parentToReturnTo);	// if dragged on a new zone, this is when it is attached to the zone
-		this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
+		if (isActive) {
+			Debug.Log("OnEndDrag");
+			this.transform.SetParent(parentToReturnTo);	// if dragged on a new zone, this is when it is attached to the zone
+			this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
 
-		GetComponent<CanvasGroup>().blocksRaycasts = true;
+			GetComponent<CanvasGroup>().blocksRaycasts = true;
 
-		foreach (DropZone d in rm.dropZones) {
-			if (d.type == DropZone.DropZoneType.BOARD) {
-				d.StopHighlight();
+			foreach (DropZone d in rm.dropZones) {
+				if (d.type == DropZone.DropZoneType.BOARD) {
+					d.StopHighlight();
+				}
 			}
-		}
 
-		Destroy(placeHolder);
+			Destroy(placeHolder);
+		} else {
+			Debug.Log("Cannot drag the object");
+		}
 	}
 
 	private void CreatePlaceHolder() {

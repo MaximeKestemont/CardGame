@@ -74,4 +74,44 @@ public class DeploymentZone : MonoBehaviour {
 		else
 			return 0;
 	}
+
+	/*
+	=====================
+	SetCardInteractable
+	=====================
+	Set the interactibility of the cards contained in the zone
+	*/
+	public void SetCardInteractable(bool flag) {
+		foreach (Card c in cardList) {
+			c.SetDraggable(flag);
+		}
+	}
+
+	/*
+	=====================
+	Highlight
+	=====================
+	Set the interactibility of the cards contained in the zone
+	*/
+	public void Highlight() {
+		// TODO should make a red border instead of changing the color of the zone
+		this.GetComponent<Image>().color = new Color(255, 0, 0);
+	}
+
+	/*
+	=====================
+	RemoveCard
+	=====================
+	*/
+	public void RemoveCard(Draggable d) {
+		Debug.Log(cardList.Count);
+		Card c = d.GetComponent<Card>();
+		if (c == null) {
+			Debug.LogError("Trying to remove a draggable not attached to a card");
+		} else {
+			cardList.Remove(c);
+		}
+	}
+
+
 }
