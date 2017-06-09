@@ -11,16 +11,24 @@ public class Player {
 	private Text playerText;
 	private int foodNumber;
 	private Text foodText;
+	public List<DeploymentZone> deployementZoneList = new List<DeploymentZone>();
 
 	private Color normalColor;
 
 	private bool isActive;
 
-	public Player(string name, int playerNumber, Text playerText, Text foodText) {
+	public Player(
+		string name, 
+		int playerNumber, 
+		Text playerText, 
+		Text foodText,
+		List<DeploymentZone> deployementZoneList) 
+	{
 		this.playerName = name;
 		this.playerNumber = playerNumber;
 		this.playerText = playerText;
 		this.foodText = foodText;
+		this.deployementZoneList = deployementZoneList;
 
 		playerText.text = playerName;
 		isActive = false;

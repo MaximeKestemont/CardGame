@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
 	public ResourceManager resourceManager;
+	public UIManager uiManager;
 
 	private List<Player> playerList = new List<Player>();
 	private Player activePlayer;
 
-	public enum GamePhase {MULLIGAN, DRAW, MAINTENANCE, MILITARY};
+	public enum GamePhase {MULLIGAN, DRAW, AUTOMATIC_MAINTENANCE, ACTIVE_MAINTENANCE_INVALID, ACTIVE_MAINTENANCE_VALID, MILITARY};
 	public GamePhase currentPhase;
 
 	void Awake() {
@@ -21,16 +22,17 @@ public class GameManager : MonoBehaviour {
 		resourceManager.menuPanel.SetActive(false);
 
 		// Instantiate the players
-		playerList.Add(new Player("Player1", 1, resourceManager.player1TextName, resourceManager.player1TextFood));
-		playerList.Add(new Player("Player2", 2, resourceManager.player2TextName, resourceManager.player2TextFood));
+		playerList.Add(new Player("Player1", 1, resourceManager.player1TextName, resourceManager.player1TextFood,
+			resourceManager.player1DeployementZone));
+		playerList.Add(new Player("Player2", 2, resourceManager.player2TextName, resourceManager.player2TextFood,
+			resourceManager.player2DeployementZone));
 
 		SetPlayerTurn(playerList[0]);
 
 		// TODO temp code, should start with mulligan then military
-		currentPhase = GamePhase.DRAW;
+		UpdateGamePhase(GamePhase.DRAW);
 		ResolveDrawPhase();
 	}
-
 
 
 	/*
@@ -52,18 +54,54 @@ public class GameManager : MonoBehaviour {
 
 		// Phase finished -> go to maintenance phase
 		Debug.Log("Draw phase : finished");
-		currentPhase = GamePhase.MAINTENANCE;
+		UpdateGamePhase(GamePhase.AUTOMATIC_MAINTENANCE);
+		AutomaticMaintenancePhase();
+
+		// TODO should slow and animate the drawing + food addition
 	}
 
 	/*
 	=====================
-	StartMaintenancePhase
+	AutomaticMaintenancePhase
 	=====================
-	1. Resolve special interactions (goat, etc.)
+	1. Resolve special interactions (goat, etc.) (TODO later on)
 	2. Resolve automatic maintenance
 	*/
-	public void StartMaintenancePhase() {
-		// TODO resolve the automatic maintenance + special interaction, and then give the hand to the player to resolve the rest
+	public void AutomaticMaintenancePhase() {
+		if (currentPhase != GamePhase.AUTOMATIC_MAINTENANCE)
+			Debug.LogError("WRONG PHASE");
+		Debug.Log("Automatic Maintenance phase : start");
+
+		// For each deployment zone, get the number of units to kill
+		Dictionary<DeploymentZone.ZonePosition, int> unitsToKill = new Dictionary<DeploymentZone.ZonePosition, int>();
+		foreach (DeploymentZone d in activePlayer.deployementZoneList) {
+			unitsToKill.Add(d.zonePosition, d.ConsumeFood());
+		}
+
+		Debug.Log("Automatic Maintenance phase : finished ");
+		UpdateGamePhase(GamePhase.ACTIVE_MAINTENANCE_INVALID);
+		ActiveMaintenancePhase(unitsToKill);
+
+		// TODO Should slow and animate the removal of food
+	}
+
+	/*
+	=====================
+	ActiveMaintenancePhase
+	=====================
+	// Start in invalid phase, and will only be valid once all units that should be killed are killed
+	*/
+	public void ActiveMaintenancePhase(Dictionary<DeploymentZone.ZonePosition, int> unitsToKill) {
+		if (currentPhase != GamePhase.ACTIVE_MAINTENANCE_INVALID)
+			Debug.LogError("WRONG PHASE");
+		Debug.Log("Active Maintenance phase : start");
+
+		bool isValid = false; // false if the player cannot go to the next phase
+		foreach (KeyValuePair<DeploymentZone.ZonePosition, int> k in unitsToKill) {
+				// TODO 
+		}
+
+		Debug.Log(unitsToKill[DeploymentZone.ZonePosition.MIDDLE]);
 	}
 
 	/*
@@ -75,6 +113,8 @@ public class GameManager : MonoBehaviour {
 	public void EndMaintenancePhase() {
 		// TODO resolve the maintenance selected by the player and move to the next phase
 	}
+
+
 
 
 	/*
@@ -90,7 +130,17 @@ public class GameManager : MonoBehaviour {
 
 	/*
 	=====================
-	setPlayerTurn
+	UpdateGamePhase
+	=====================
+	*/
+	public void UpdateGamePhase(GamePhase gamePhase) {
+		this.currentPhase = gamePhase;
+		uiManager.UpdateActionButton(gamePhase);
+	}
+
+	/*
+	=====================
+	SetPlayerTurn
 	=====================
 	*/
 	public void SetPlayerTurn(Player player) {
