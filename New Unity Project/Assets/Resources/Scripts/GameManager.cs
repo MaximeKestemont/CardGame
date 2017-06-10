@@ -79,14 +79,11 @@ public class GameManager : MonoBehaviour {
 		Debug.Log("Automatic Maintenance phase : start");
 
 		// For each deployment zone, get the number of units to kill
-		Dictionary<DeploymentZone, int> unitsToKill = new Dictionary<DeploymentZone, int>();
-		foreach (KeyValuePair<DeploymentZone.ZonePosition, DeploymentZone> d in activePlayer.deployementZoneMap) {
-			unitsToKill.Add(d.Value, d.Value.ConsumeFood());
-		}
+		activePlayer.ComputeUnitsToKill();
 
 		Debug.Log("Automatic Maintenance phase : finished ");
 		UpdateGamePhase(GamePhase.ACTIVE_MAINTENANCE_INVALID);
-		ActiveMaintenancePhase(unitsToKill);
+		ActiveMaintenancePhase();
 
 		// TODO Should slow and animate the removal of food
 	}
@@ -97,21 +94,18 @@ public class GameManager : MonoBehaviour {
 	=====================
 	// Start in invalid phase, and will only be valid once all units that should be killed are killed
 	*/
-	public void ActiveMaintenancePhase(Dictionary<DeploymentZone, int> unitsToKill) {
+	public void ActiveMaintenancePhase() {
 		if (currentPhase != GamePhase.ACTIVE_MAINTENANCE_INVALID)
 			Debug.LogError("WRONG PHASE");
 		Debug.Log("Active Maintenance phase : start");
 
-
-		// TODO CONTINUE HERE
 		bool isValid = true; // false if the player cannot go to the next phase
-		foreach (KeyValuePair<DeploymentZone, int> k in unitsToKill) {
+
+		foreach (KeyValuePair<DeploymentZone, int> k in activePlayer.unitsToKill) {
 			DeploymentZone zone = k.Key;
 
 			if (k.Value > 0) {
 				isValid = false;
-
-				// TODO this should all be in a function belonging to the Deployment zone
 
 				// Hightlight the zone to indicate there is something to do
 				zone.Highlight();
@@ -119,15 +113,18 @@ public class GameManager : MonoBehaviour {
 				zone.SetCardInteractable(true);
 
 				// Display a pop-up
+				// TODO
 
 			} else {
 				// The player cannot interact with those cards in this phase
 				zone.SetCardInteractable(false);
 			}
-				
 		}
 
-
+		if (isValid) {
+			Debug.Log("Active Maintenance phase : finished");
+			EndMaintenancePhase();
+		}
 	}
 
 	/*
@@ -138,9 +135,8 @@ public class GameManager : MonoBehaviour {
 	*/
 	public void EndMaintenancePhase() {
 		// TODO resolve the maintenance selected by the player and move to the next phase
+		Debug.Log("End Maintenance phase : start");
 	}
-
-
 
 
 	/*
@@ -175,6 +171,23 @@ public class GameManager : MonoBehaviour {
 		}
 		player.SetActive(true);
 		activePlayer = player;
+	}
+
+
+}
+
+
+// TODO to move elsewhere?
+public static class Utils {
+
+	public static string ToDebugString<TKey, TValue> (this IDictionary<TKey, TValue> dictionary)
+	{
+		string result = "";
+		foreach (KeyValuePair<TKey, TValue> kv in dictionary) {
+			string s = "(" + kv.Key.ToString() + " = " + kv.Value.ToString() + "),"; 
+			result += s;
+		}
+		return result;
 	}
 
 }

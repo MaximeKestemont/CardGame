@@ -46,30 +46,36 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 	}
 
 	public void OnDrop(PointerEventData eventData) {
-		Debug.Log(eventData.pointerDrag.name + "was drop to " + gameObject.name);
+		Debug.Log(eventData.pointerDrag.name + " was drop to " + gameObject.name);
 
 		Draggable d = eventData.pointerDrag.GetComponent<Draggable>();
-		// TODO can add conditions here (check if enough food to play the card, if the DropZoneType is correct, etc.)
+
 		if (d != null) {
 
 			if (this.type == DropZoneType.GRAVEYARD) {
 				// Can only be dropped to the graveyard in the maintenance phase
-				Debug.Log(gm);
 				if (gm.currentPhase == GameManager.GamePhase.ACTIVE_MAINTENANCE_INVALID) {
-					// Remove the card from the list
-					d.parentToReturnTo.GetComponent<DeploymentZone>().RemoveCard(d);
+					DeploymentZone previousZone = d.parentToReturnTo.GetComponent<DeploymentZone>();
+
+					// Remove the card from the card list of the previous zone
+					previousZone.RemoveCard(d);
+
+					// One less unit to kill in the deployment zone
+					gm.activePlayer.RemoveUnitToKill(previousZone, 1);
 
 					// Parent of the card is now the graveyard
-					d.parentToReturnTo = this.transform;	// TODO should add it to the graveyard class
+					d.parentToReturnTo = this.transform;
+
+					// Make the card non interactable
+					d.isActive = false;
 
 					// Update the maintenance
 					gm.activePlayer.MaintenanceCheck();
 
-					// TODO should make the card non interactable
-					// CONTINUE HERE
 				} else {
 					// Do nothing
 				}
+
 			} else {
 				d.parentToReturnTo = this.transform;
 			}

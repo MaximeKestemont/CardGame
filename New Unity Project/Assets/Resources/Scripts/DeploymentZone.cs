@@ -100,6 +100,17 @@ public class DeploymentZone : MonoBehaviour {
 
 	/*
 	=====================
+	StopHighlight
+	=====================
+	Set the interactibility of the cards contained in the zone
+	*/
+	public void StopHighlight() {
+		// TODO should remove the red border here
+		this.GetComponent<Image>().color = new Color(255, 255, 255, 100); 
+	}
+
+	/*
+	=====================
 	RemoveCard
 	=====================
 	*/
