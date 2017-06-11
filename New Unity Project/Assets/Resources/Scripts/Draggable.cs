@@ -34,11 +34,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 			GetComponent<CanvasGroup>().blocksRaycasts = false;
 
 			// TODO refactor that part, to make it glow (shader?) and more optimal by prestoring those values
-			foreach (DropZone d in rm.dropZones) {
-				if (d.type == DropZone.DropZoneType.BOARD) {
-					d.Highlight();
-				}
-			}
+			// foreach (DropZone d in rm.dropZones) {
+			//	if (d.type == DropZone.DropZoneType.BOARD) {
+			//		d.Highlight();
+			//	}
+			//}
 		} else {
 			Debug.Log("Cannot drag the object");
 		}
@@ -79,11 +79,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
 			GetComponent<CanvasGroup>().blocksRaycasts = true;
 
-			foreach (DropZone d in rm.dropZones) {
-				if (d.type == DropZone.DropZoneType.BOARD) {
-					d.StopHighlight();
-				}
-			}
+			// TODO refactor that part 
+			// foreach (DropZone d in rm.dropZones) {
+			// 	if (d.type == DropZone.DropZoneType.BOARD) {
+			// 		d.StopHighlight();
+			// 	}
+			//}
 
 			Destroy(placeHolder);
 		} else {

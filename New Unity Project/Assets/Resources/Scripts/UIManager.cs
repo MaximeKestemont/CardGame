@@ -31,8 +31,12 @@ public class UIManager : MonoBehaviour {
 			actionButtonText.text = "Finish maintenance";
 			break;
 		case GameManager.GamePhase.ACTIVE_MAINTENANCE_VALID:
-			actionButton.interactable = true;
+			actionButton.interactable = false;
 			actionButtonText.text = "Finish maintenance";
+			break;
+		case GameManager.GamePhase.MILITARY:
+			actionButton.interactable = true;
+			actionButtonText.text = "Finish turn";
 			break;
 		}
 	}

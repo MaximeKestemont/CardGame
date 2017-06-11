@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour {
 	private List<Player> playerList = new List<Player>();
 	public Player activePlayer;
 
-	public enum GamePhase {MULLIGAN, DRAW, AUTOMATIC_MAINTENANCE, ACTIVE_MAINTENANCE_INVALID, ACTIVE_MAINTENANCE_VALID, MILITARY};
+	public enum GamePhase {MULLIGAN, DRAW, AUTOMATIC_MAINTENANCE, 
+		ACTIVE_MAINTENANCE_INVALID, ACTIVE_MAINTENANCE_VALID, MILITARY};
 	public GamePhase currentPhase;
 
 	void Awake() {
@@ -23,9 +24,9 @@ public class GameManager : MonoBehaviour {
 
 		// Instantiate the players
 		playerList.Add(new Player("Player1", 1, resourceManager.player1TextName, resourceManager.player1TextFood,
-			resourceManager.player1DeployementZone));
+			resourceManager.player1TextAction, resourceManager.player1DeployementZone));
 		playerList.Add(new Player("Player2", 2, resourceManager.player2TextName, resourceManager.player2TextFood,
-			resourceManager.player2DeployementZone));
+			resourceManager.player2TextAction, resourceManager.player2DeployementZone));
 
 		SetPlayerTurn(playerList[0]);
 
@@ -123,6 +124,7 @@ public class GameManager : MonoBehaviour {
 
 		if (isValid) {
 			Debug.Log("Active Maintenance phase : finished");
+			UpdateGamePhase(GamePhase.ACTIVE_MAINTENANCE_VALID);
 			EndMaintenancePhase();
 		}
 	}
@@ -131,21 +133,38 @@ public class GameManager : MonoBehaviour {
 	=====================
 	EndMaintenancePhase
 	=====================
-	3. Resolve player maintenance choice
 	*/
+	// TODO delete this phase ? 
 	public void EndMaintenancePhase() {
-		// TODO resolve the maintenance selected by the player and move to the next phase
-		Debug.Log("End Maintenance phase : start");
+		if (currentPhase != GamePhase.ACTIVE_MAINTENANCE_VALID)
+			Debug.LogError("WRONG PHASE");
+
+		UpdateGamePhase(GamePhase.MILITARY);
+		ResolveMilitaryPhase();
 	}
 
 
 	/*
 	=====================
-	ResolveActionPhase
+	ResolveMilitaryPhase
 	=====================
 	*/
-	public void ResolveActionPhase() {
-		// TODO
+	public void ResolveMilitaryPhase() {
+		if (currentPhase != GamePhase.MILITARY)
+			Debug.LogError("WRONG PHASE");
+
+		// Set the player actions to 3
+		activePlayer.SetActionCounter(3);
+
+
+		// TODO continue here
+		// First : display the number of actions left to do.
+		// Then, render all cards interactable (except those in the graveyard)
+		// 3 actions to do, among : 
+		// 	1. play a card
+		// 	2. move a deployed card
+		//  3. deploy cards
+		//	4. get food
 	}
 
 

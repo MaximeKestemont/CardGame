@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Zone where a player can deploy cards
-public class DeploymentZone : MonoBehaviour {
+public class DeploymentZone : Zone {
 
 	public enum ZonePosition {LEFT, MIDDLE, RIGHT};
 
-	public List<Card> cardList = new List<Card>();
+	//public List<Card> cardList = new List<Card>();
 	public int foodNumber = 0;
 	public int battleValue = 0;
 	public ZonePosition zonePosition;
@@ -18,9 +18,10 @@ public class DeploymentZone : MonoBehaviour {
 	public List<Object> foodIconList = new List<Object>();
 
 	public void Awake() {
+		normalColor = this.GetComponent<Image>().color;
 		SetBattleValue(0);
 		UpdateFoodDisplay();
-
+		type = ZoneType.DEPLOYMENT_ZONE;
 	}
 
 
@@ -86,43 +87,5 @@ public class DeploymentZone : MonoBehaviour {
 			c.SetDraggable(flag);
 		}
 	}
-
-	/*
-	=====================
-	Highlight
-	=====================
-	Set the interactibility of the cards contained in the zone
-	*/
-	public void Highlight() {
-		// TODO should make a red border instead of changing the color of the zone
-		this.GetComponent<Image>().color = new Color(255, 0, 0);
-	}
-
-	/*
-	=====================
-	StopHighlight
-	=====================
-	Set the interactibility of the cards contained in the zone
-	*/
-	public void StopHighlight() {
-		// TODO should remove the red border here
-		this.GetComponent<Image>().color = new Color(255, 255, 255, 100); 
-	}
-
-	/*
-	=====================
-	RemoveCard
-	=====================
-	*/
-	public void RemoveCard(Draggable d) {
-		Debug.Log(cardList.Count);
-		Card c = d.GetComponent<Card>();
-		if (c == null) {
-			Debug.LogError("Trying to remove a draggable not attached to a card");
-		} else {
-			cardList.Remove(c);
-		}
-	}
-
 
 }

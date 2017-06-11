@@ -11,6 +11,9 @@ public class Player {
 	private Text playerText;
 	private int foodNumber;
 	private Text foodText;
+	private int actionCounter;
+	private Text actionText;
+
 	public Dictionary<DeploymentZone.ZonePosition, DeploymentZone> deployementZoneMap = new Dictionary<DeploymentZone.ZonePosition, DeploymentZone>();
 
 	// this is used to temporarily store the units to kill in each deployment zone during the maintenance phase
@@ -18,7 +21,6 @@ public class Player {
 
 	private Color normalColor;
 	private bool isActive;
-
 	private GameManager gm;
 
 	public Player(
@@ -26,17 +28,20 @@ public class Player {
 		int playerNumber, 
 		Text playerText, 
 		Text foodText,
+		Text actionText,
 		Dictionary<DeploymentZone.ZonePosition, DeploymentZone> deployementZoneMap) 
 	{
 		this.playerName = name;
 		this.playerNumber = playerNumber;
 		this.playerText = playerText;
 		this.foodText = foodText;
+		this.actionText = actionText;
 		this.deployementZoneMap = deployementZoneMap;
 
 		playerText.text = playerName;
 		isActive = false;
 		normalColor = new Color(1, 1, 1, 1);
+		actionCounter = 0;
 
 		// TODO should be retrieved in a safer way
 		// currently only needed to get the currentStatus
@@ -44,6 +49,9 @@ public class Player {
 
 		// Initialize food 
 		SetFoodNumber(3);
+
+		// Disable the action text
+		actionText.enabled = false;
 	}
 
 
@@ -68,9 +76,9 @@ public class Player {
 			count += Mathf.Max(0, kv.Value); // should never be negative in theory
 		}
 		if (count > 0) {
-			gm.currentPhase = GameManager.GamePhase.ACTIVE_MAINTENANCE_INVALID;
+			gm.UpdateGamePhase(GameManager.GamePhase.ACTIVE_MAINTENANCE_INVALID);
 		} else {
-			gm.currentPhase = GameManager.GamePhase.ACTIVE_MAINTENANCE_VALID;
+			gm.UpdateGamePhase(GameManager.GamePhase.ACTIVE_MAINTENANCE_VALID);
 			Debug.Log("Active Maintenance phase : finished");
 			gm.EndMaintenancePhase();
 		}
@@ -151,6 +159,24 @@ public class Player {
 			playerText.color = normalColor;
 
 		isActive = flag;
+	}
+
+	public void SetActionCounter(int number) {
+		actionCounter = number;
+		if (actionCounter > 0) {
+			actionText.text = "Action : " + actionCounter;
+			actionText.enabled = true;
+		} else {
+			actionText.enabled = false;
+		}
+	}
+
+	public int GetActionCounter() {
+		return actionCounter;
+	}
+
+	public void DecrementActionCounter() {
+		SetActionCounter(actionCounter - 1);
 	}
 		
 }
