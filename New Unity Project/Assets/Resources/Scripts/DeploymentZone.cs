@@ -17,6 +17,9 @@ public class DeploymentZone : Zone {
 
 	public List<Object> foodIconList = new List<Object>();
 
+	// number of cards deployed in this zone during this turn
+	public int nbDeployedHere = 0;
+
 	public void Awake() {
 		normalColor = this.GetComponent<Image>().color;
 		SetBattleValue(0);
@@ -86,6 +89,38 @@ public class DeploymentZone : Zone {
 		foreach (Card c in cardList) {
 			c.SetDraggable(flag);
 		}
+	}
+
+	/*
+	=====================
+	IsNeighbour
+	=====================
+	*/
+	public bool IsNeighbour(DeploymentZone zone) {
+		switch (this.zonePosition) {
+
+		case ZonePosition.LEFT:
+			if (zone.zonePosition == ZonePosition.MIDDLE)
+				return true;
+			else
+				return false;
+			break;
+
+		case ZonePosition.MIDDLE:
+			if (zone.zonePosition == ZonePosition.MIDDLE)
+				return false;
+			else
+				return true;
+			break;
+
+		case ZonePosition.RIGHT:
+			if (zone.zonePosition == ZonePosition.MIDDLE)
+				return true;
+			else
+				return false;
+			break;
+		}
+		return false; // should never be reached
 	}
 
 }

@@ -23,6 +23,9 @@ public class Player {
 	private bool isActive;
 	private GameManager gm;
 
+	// number of deployment move done (1 move = 1 action consumed) 
+	public int nbDeploymentMove = 0;
+
 	public Player(
 		string name, 
 		int playerNumber, 
