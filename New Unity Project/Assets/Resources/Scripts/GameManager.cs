@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour {
 	public Player activePlayer;
 
 	public enum GamePhase {MULLIGAN, DRAW, AUTOMATIC_MAINTENANCE, 
-		ACTIVE_MAINTENANCE_INVALID, ACTIVE_MAINTENANCE_VALID, MILITARY};
+		ACTIVE_MAINTENANCE_INVALID, ACTIVE_MAINTENANCE_VALID, MILITARY, MILITARY_NO_ACTION_LEFT};
 	public GamePhase currentPhase;
 
 	void Awake() {
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour {
 		activePlayer.SetActionCounter(3);
 
 
-		// TODO continue here
+
 		// First : display the number of actions left to do.
 		// Then, render all cards interactable (except those in the graveyard)
 		// 3 actions to do, among : 
@@ -165,6 +165,8 @@ public class GameManager : MonoBehaviour {
 		// 	2. move a deployed card
 		//  3. deploy cards
 		//	4. get food
+
+		// TODO continue here : implement getFood action + finish turn action
 	}
 
 

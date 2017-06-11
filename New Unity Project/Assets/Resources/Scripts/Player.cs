@@ -89,6 +89,20 @@ public class Player {
 
 	/*
 	=====================
+	ActionCheck
+	=====================
+	Check if the player still has action to do. If not, the button FinishTurn should then be interactable.
+	However, the turn cannot end automatically, as the player may still have some valid (free) deployment move.
+	Only called for the DecrementActionCounter function.
+	*/
+	public void ActionCheck() {
+		if (actionCounter == 0) {
+			gm.UpdateGamePhase(GameManager.GamePhase.MILITARY_NO_ACTION_LEFT);
+		}
+	}
+
+	/*
+	=====================
 	ComputeUnitsToKill
 	=====================
 	*/
@@ -180,6 +194,7 @@ public class Player {
 
 	public void DecrementActionCounter() {
 		SetActionCounter(actionCounter - 1);
+		ActionCheck();
 	}
 		
 }

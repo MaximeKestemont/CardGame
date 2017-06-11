@@ -35,6 +35,10 @@ public class UIManager : MonoBehaviour {
 			actionButtonText.text = "Finish maintenance";
 			break;
 		case GameManager.GamePhase.MILITARY:
+			actionButton.interactable = false;
+			actionButtonText.text = "Finish turn";
+			break;
+		case GameManager.GamePhase.MILITARY_NO_ACTION_LEFT:
 			actionButton.interactable = true;
 			actionButtonText.text = "Finish turn";
 			break;
