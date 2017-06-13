@@ -65,4 +65,8 @@ public abstract class Zone : MonoBehaviour {
 			cardList.Add(c);
 		}
 	}
+
+	public void AddCard(Card c) {
+		cardList.Add(c);
+	}
 }

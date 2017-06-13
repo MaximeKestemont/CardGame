@@ -12,6 +12,8 @@ public class ResourceManager : MonoBehaviour {
 	public Text player1TextName;
 	public Text player1TextFood;
 	public Text player1TextAction;
+	public Deck player1Deck;
+	public Hand player1Hand;
 
 	public List<DeploymentZone> player1DeployementZoneList = new List<DeploymentZone>(); // Need a list because the editor does not support dict...
 	public Dictionary<DeploymentZone.ZonePosition, DeploymentZone> player1DeployementZone = new Dictionary<DeploymentZone.ZonePosition, DeploymentZone>();
@@ -20,6 +22,8 @@ public class ResourceManager : MonoBehaviour {
 	public Text player2TextName;
 	public Text player2TextFood;
 	public Text player2TextAction;
+	public Deck player2Deck;
+	public Hand player2Hand;
 
 	public List<DeploymentZone> player2DeployementZoneList = new List<DeploymentZone>();
 	public Dictionary<DeploymentZone.ZonePosition, DeploymentZone> player2DeployementZone = new Dictionary<DeploymentZone.ZonePosition, DeploymentZone>();

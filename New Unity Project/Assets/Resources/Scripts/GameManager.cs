@@ -24,9 +24,11 @@ public class GameManager : MonoBehaviour {
 
 		// Instantiate the players
 		playerList.Add(new Player("Player1", 1, resourceManager.player1TextName, resourceManager.player1TextFood,
-			resourceManager.player1TextAction, resourceManager.player1DeployementZone));
+			resourceManager.player1TextAction, resourceManager.player1DeployementZone, resourceManager.player1Deck,
+			resourceManager.player1Hand));
 		playerList.Add(new Player("Player2", 2, resourceManager.player2TextName, resourceManager.player2TextFood,
-			resourceManager.player2TextAction, resourceManager.player2DeployementZone));
+			resourceManager.player2TextAction, resourceManager.player2DeployementZone, resourceManager.player2Deck,
+			resourceManager.player2Hand));
 
 		SetPlayerTurn(playerList[0]);
 
@@ -166,7 +168,7 @@ public class GameManager : MonoBehaviour {
 		//  3. deploy cards
 		//	4. get food
 
-		// TODO continue here : implement getFood action + finish turn action
+	
 	}
 
 
@@ -178,7 +180,7 @@ public class GameManager : MonoBehaviour {
 	*/
 	public void UpdateGamePhase(GamePhase gamePhase) {
 		this.currentPhase = gamePhase;
-		uiManager.UpdateActionButton(gamePhase);
+		uiManager.UpdateUIButtons(gamePhase);
 	}
 
 	/*
@@ -192,8 +194,30 @@ public class GameManager : MonoBehaviour {
 		}
 		player.SetActive(true);
 		activePlayer = player;
+
+		// TODO should make interactable all the cards/board belonging to another player
 	}
 
+	/*
+	=====================
+	GetFoodAction
+	=====================
+	*/
+	public void GetFoodAction() {
+		activePlayer.AddFood(1);
+		activePlayer.DecrementActionCounter();
+	}
+		
+	/*
+	=====================
+	FinishTurn
+	=====================
+	*/
+	public void FinishTurn() {
+		int currentIndex = playerList.FindIndex(player => activePlayer == player);
+		int newPlayerIndex = (currentIndex + 1) % playerList.Count;
+		SetPlayerTurn(playerList[newPlayerIndex]);
+	}
 
 }
 

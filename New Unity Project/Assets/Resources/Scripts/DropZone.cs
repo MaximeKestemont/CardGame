@@ -85,7 +85,8 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 				DeploymentZone currentDeploymentZone = currentZone as DeploymentZone;
 
 				// from BOARD to DEPLOYMENT ZONE
-				if (gm.currentPhase == GameManager.GamePhase.MILITARY
+				if ((gm.currentPhase == GameManager.GamePhase.MILITARY
+					|| gm.currentPhase == GameManager.GamePhase.MILITARY_NO_ACTION_LEFT)
 					&& parentZone.type == Zone.ZoneType.BOARD
 				    && gm.activePlayer.GetActionCounter() >= 0) { // even if 0 action left, may be possible to move
 				

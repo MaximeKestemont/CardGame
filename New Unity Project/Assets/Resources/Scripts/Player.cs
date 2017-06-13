@@ -13,6 +13,8 @@ public class Player {
 	private Text foodText;
 	private int actionCounter;
 	private Text actionText;
+	private Deck deck;
+	public Hand hand;
 
 	public Dictionary<DeploymentZone.ZonePosition, DeploymentZone> deployementZoneMap = new Dictionary<DeploymentZone.ZonePosition, DeploymentZone>();
 
@@ -32,7 +34,9 @@ public class Player {
 		Text playerText, 
 		Text foodText,
 		Text actionText,
-		Dictionary<DeploymentZone.ZonePosition, DeploymentZone> deployementZoneMap) 
+		Dictionary<DeploymentZone.ZonePosition, DeploymentZone> deployementZoneMap,
+		Deck deck,
+		Hand hand) 
 	{
 		this.playerName = name;
 		this.playerNumber = playerNumber;
@@ -40,6 +44,8 @@ public class Player {
 		this.foodText = foodText;
 		this.actionText = actionText;
 		this.deployementZoneMap = deployementZoneMap;
+		this.deck = deck;
+		this.hand = hand;
 
 		playerText.text = playerName;
 		isActive = false;
@@ -56,13 +62,16 @@ public class Player {
 		// Disable the action text
 		actionText.enabled = false;
 	}
-
-
-
-
-	// TODO maybe move this in a future Deck.cs script ? 
+		
+	/*
+	=====================
+	DrawCard
+	=====================
+	*/
 	public void DrawCard(int number) {
-		// TODO
+		for (int i = 0; i < number; ++i) {
+			deck.PickCard(this);
+		}
 	}
 
 	/*
