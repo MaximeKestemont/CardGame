@@ -8,6 +8,7 @@ public class SampleCard : Card {
 		foodCost = 1;
 		foodConsumption = 1;
 		battleValue = 2;
+		name = CardName.SAMPLE_CARD;
 	}
 
 	public override void SpecialEffect() {

@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\Board.cs" />
-     <Compile Include="Assets\Resources\Scripts\Card.cs" />
+     <Compile Include="Assets\Resources\Scripts\Cards\Card.cs" />
+     <Compile Include="Assets\Resources\Scripts\Cards\PeasantCard.cs" />
+     <Compile Include="Assets\Resources\Scripts\Cards\SampleCard.cs" />
      <Compile Include="Assets\Resources\Scripts\Deck.cs" />
      <Compile Include="Assets\Resources\Scripts\DeploymentZone.cs" />
      <Compile Include="Assets\Resources\Scripts\Draggable.cs" />
@@ -57,7 +59,6 @@
      <Compile Include="Assets\Resources\Scripts\Hand.cs" />
      <Compile Include="Assets\Resources\Scripts\Player.cs" />
      <Compile Include="Assets\Resources\Scripts\ResourceManager.cs" />
-     <Compile Include="Assets\Resources\Scripts\SampleCard.cs" />
      <Compile Include="Assets\Resources\Scripts\UIManager.cs" />
      <Compile Include="Assets\Resources\Scripts\Zone.cs" />
      <Compile Include="Assets\Scripts\GameControllerTicTac.cs" />

@@ -14,7 +14,7 @@ public class Hand : Zone {
 	=====================
 	*/
 	public void InstantiateNewCard(Card c) {
-		Object cardObject = Instantiate(Resources.Load("Prefabs/Card"), transform);
+		Object cardObject = Instantiate(Resources.Load(c.GetPrefabPath()), transform);
 		Card newCard = cardObject as Card;
 		cardList.Add(newCard);
 	}

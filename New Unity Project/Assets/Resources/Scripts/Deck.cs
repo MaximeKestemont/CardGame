@@ -13,13 +13,24 @@ public class Deck : MonoBehaviour {
 		cardList.Add(c);
 		Card c1 = new SampleCard();
 		cardList.Add(c1);
+		Card c2 = new PeasantCard();
+		cardList.Add(c2);
+		Card c3 = new PeasantCard();
+		cardList.Add(c3);
 		UpdateCardText();
+		Suffle();
 	}
 
 	public void UpdateCardText() {
 		nbCardsText.text = cardList.Count.ToString();
 	}
 
+	/*
+	=====================
+	PickCard
+	=====================
+	Pick the first card of the deck (no shuffling done)
+	*/
 	public void PickCard(Player player) {
 		if (cardList.Count > 0) {
 			Card c = cardList[0];
@@ -32,7 +43,18 @@ public class Deck : MonoBehaviour {
 		}
 	}
 
-	public void Randomize() {
-		// TODO
+	/*
+	=====================
+	Suffle
+	=====================
+	Perfect shuffle of the deck
+	*/
+	public void Suffle() {
+		for (int i = cardList.Count - 1; i >= 0 ; --i) {
+			int j = Random.Range(0, i);
+			Card temp = cardList[i];
+			cardList[i] = cardList[j];
+			cardList[j] = temp;
+		}
 	}
 }
